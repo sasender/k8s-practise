@@ -7,5 +7,5 @@ spec:
   resourses:
     requests:
       storage: 100Mi
-  accessnodes:
+  accessModes:
     - ReadWriteOnce   
