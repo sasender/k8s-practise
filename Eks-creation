@@ -42,4 +42,11 @@ aws eks create-cluster \
 
    after creating cluster go to the clster overview and choose the add node gropus 
    select the how many workes nodes you need and select the vpc and instance state 
-   
+
+aws eks create-cluster \
+>    --region us-east-1 \
+>    --name eks-cluster \
+>    --kubernetes-version 1.21 \
+>    --role-arn arn:aws:iam::326413622254:role/demo-cluster \
+>    --resources-vpc-config subnetIds=subnet-0a036bf06979f3b15,subnet-0d2683a99fb6624b9,subnet-0122a04eed942d886,subnet-083364fe76c074a89,securityGroupIds=sg-0fb735b3673fdd2d5
+
