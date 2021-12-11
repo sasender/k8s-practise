@@ -1,0 +1,45 @@
+elasic kubernetes service managed by aws 
+we can easily manage and easily deploying our applications 
+i created  one vpc in the vpc 2 public sub nets and two private sub nets with using route tables and nat gateways 
+we must create nat gateways in the public subnets and associate to nat gateways 
+in the route tables adding private subenets to the nat gate way 
+internet gate way adding to punlic sub nets 
+
+EKS cluster creation 
+create the one instace & we must download the kubectl and eksctl tools in tha instnce 
+create iam roles and users 
+download the aws commnad cli 
+authentocate to the iam creadintials to instance 
+installing kubectl
+curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl
+check sume file 
+openssl sha1 -sha256 kubectl
+giving the permissions 
+chmod +x ./kubectl
+mkdir -p $HOME/bin && cp ./kubectl $HOME/bin/kubectl && export PATH=$PATH:$HOME/bin
+
+echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
+kubectl version --short --client
+
+installing eksctl
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/latest/download/eksctl_$(uname -s)_amd64.tar.gz" | tar xz -C /tmp
+sudo mv /tmp/eksctl /usr/local/bin
+eksctl version
+
+then go to eks documentaion in 
+cluster authentication  select the cluster update the kubeconfig enter bellow command 
+aws sts get-caller-identity 
+                                create the cluster through command lie interface 
+aws eks create-cluster \
+   --region us-east-1 \
+   --name eks-cluster \
+   --kubernetes-version 1.21 \
+   --role-arn arn:aws:iam::326413622254:role/demo-cluster \
+   --resources-vpc-config subnetIds=subnet-0a036bf06979f3b15,subnet-0d2683a99fb6624b9,subnet-0122a04eed942d886,subnet-083364fe76c074a89,securityGroupIds=sg-0fb735b3673fdd2d5
+
+   update the kubeconfig  entering the bellow command 
+   aws eks --region us-east-1 update-kubeconfig --name eks-cluster
+
+   after creating cluster go to the clster overview and choose the add node gropus 
+   select the how many workes nodes you need and select the vpc and instance state 
+   
