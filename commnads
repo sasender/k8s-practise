@@ -1,0 +1,113 @@
+  385  aws eks create-cluster >    --region us-east-1 >    --name eks-cluster >    --kubernetes-version 1.21 >    --role-arn arn:aws:iam::326413622254:role/demo-cluster >    --resources-vpc-config subnetIds=subnet-0a036bf06979f3b15,subnet-0d2683a99fb6624b9,subnet-0122a04eed942d886,subnet-083364fe76c074a89,securityGroupIds=sg-0fb735b3673fdd2d5
+  386  aws eks create-cluster    --region us-east-1    --name eks-cluster    --kubernetes-version 1.21    --role-arn arn:aws:iam::326413622254:role/demo-cluster    --resources-vpc-config subnetIds=subnet-0a036bf06979f3b15,subnet-0d2683a99fb6624b9,subnet-0122a04eed942d886,subnet-083364fe76c074a89,securityGroupIds=sg-0fb735b3673fdd2d5
+  387  kubectl get deployment -n kube-system alb-ingress-controller
+  388  aws sts get-caller-identity
+  389  eksctl utils write-kubeconfig --cluster=eks-cluster --set-kubeconfig-context=true
+  390  eksctl utils associate-iam-oidc-provider --cluster=eks-cluster --approve
+  391  kubectl apply -f https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.4/docs/examples/rbac-role.yaml
+  392  curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.2.0/docs/install/iam_policy.json
+  393  aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document file://iam_policy.json
+  394  aws iam create-policy --policy-name AWSLoadIAMPolicy --policy-document file://iam_policy.json
+  395  eksctl create iamserviceaccount       --cluster=eks-cluster       --namespace=kube-system       --name=aws-load-balancer-controller       --attach-policy-arn=arn:aws:iam::326413622254:policy/AWSLoadIAMPolicy       --override-existing-serviceaccounts       --approve
+  396  kubectl get nodes
+  397  kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v1.1.1/cert-manager.yaml
+  398  kubectl apply -f v2_2_0_full.yaml
+  399  kubectl get ingress
+  400  kubectl get pods -n kube-system
+  401  eksctl  get iamserviceaccount --cluster eks-cluster
+  402  kubectl describe sa alb-ingress-controller -n kube-system
+  403  kubectl get pods -n kube-system
+  404  kubectl get deployment -n kube-system alb-ingress-controller
+  405  curl -o iam_policy_v1_to_v2_additional.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.3.0/docs/install/iam_policy_v1_to_v2_additional.json
+  406  aws iam create-policy   --policy-name AWSLoadBalancerControllerAdditionalIAMPolicy   --policy-document file://iam_policy_v1_to_v2_additional.json
+  407  aws iam attach-role-policy   --role-name eksctl-eks-cluster-addon-iamserviceaccount-k-Role1-189DHRWZAP60K   --policy-arn arn:aws:iam::326413622254:policy/AWSLoadIAMPolicy
+  408  echo$/
+  409  echo $/
+  410  echo $?
+  411  aws iam attach-role-policy   --role-name eksctl-eks-cluster-addon-iamserviceaccount-k-Role1-189DHRWZAP60K   --policy-arn arn:aws:iam::326413622254:policy/AWSLoadIAMPolicy
+  412  echo $?
+  413  curl -Lo v2_3_0_full.yaml https://github.com/kubernetes-sigs/aws-load-balancer-controller/releases/download/v2.3.0/v2_3_0_full.yaml
+  414  ls -l
+  415  vi v2_3_0_full.yaml
+  416  cat v2_3_0_full.yaml
+  417  vi v2_3_0_full.yaml
+  418  kubectl apply -f v2_3_0_full.yaml
+  419  kubectl get deployment -n kube-system aws-load-balancer-controller
+  420  cd k8s/
+  421  ls -l
+  422  git clone https://github.com/RobinNagpal/kubernetes-tutorials.git
+  423  ls -l
+  424  cd kubernetes-tutorials/
+  425  ls -l
+  426  cd 06_tools/
+  427  ls -l
+  428  cd 007_alb_ingress/
+  429  ls -l
+  430  cd 01_eks/
+  431  ls -l
+  432  cd k8s/
+  433  ls -l
+  434  cat kustomization.yaml
+  435  kubectl apply -f 01-foo-deployment.yml
+  436  kubectl get pods
+  437  kubectl get pods
+  438  kubectl apply -f 02-bar-deployment.yml
+  439  kubectl apply -f ingress.yaml
+  440  kubectl get ingress
+  441  kubectl get pods
+  442  kubectl get deployment -n kube-system aws-load-balancer-controller
+  443  kubectl get pods -n kube-system
+  444  kubectl describe sa alb-ingress-controller -n kube-system
+  445  kubectl logs -f $(kubectl get po -n kube-system | egrep -o 'aws-load-balancer-controller-7c659c746c-wsv44') -n kube-system
+  446  kubectl get deployment -n kube-system aws-load-balancer-controller -oyaml |grep "cluster-name"
+  447  kubectl get deployment -n kube-system aws-load-balancer-controller -oyaml |grep "eks-cluster"
+  448  ls -l
+  449  cat ingress.yaml
+  450  vi ingress.yaml
+  451  kubectl get pods
+  452  kubectl apply -f ingress.yaml
+  453  kubectl get ingress
+  454  vi ingress.yaml
+  455  vi ingress.yaml
+  456  kubectl apply -f ingress.yaml
+  457  vi ingress.yaml
+  458  kubectl apply -f ingress.yaml
+  459  kubectl apply -f ingress.yaml --validate=false
+  460  kubectl get ingress
+  461  kubectl logs -f $(kubectl get po -n kube-system | egrep -o 'aws-load-balancer-controller-7c659c746c-wsv44') -n kube-system
+  462  kubectl get ingress
+  463  kubectl describe sa alb-ingress-controller -n kube-system
+  464  kubectl get pods -n kube-system
+  465  kubectl delete -f kustomization.yaml
+  466  kubectl get pods
+  467  ls -l
+  468  kubectl delete -f 01-foo-deployment.yml
+  469  kubectl get pods
+  470  kubectl delete -f 02-bar-deployment.yml
+  471  kubectl delete -f ingress.yaml
+  472  eks get nodegroup --cluster=eks-cluster
+  473  eksctl get nodegroup --cluster=eks-cluster
+  474  kubectl edit deployment.apps/alb-ingress-controller -n kube-system
+  475  kubectl apply -f   https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.4/docs/examples/alb-ingress-controller.yaml
+  476  kubectl edit deployment.apps/alb-ingress-controller -n kube-system
+  477  kubectl get pods -n kube-system
+  478  cd
+  479  kubectl apply -f     https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.4/docs/examples/2048/2048-$i.yaml
+  480  kubectl apply -f     https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.4/docs/examples/2048/2048-$i.yaml
+  481  for i in namespace deployment service ingress; do   kubectl apply -f     https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.4/docs/examples/2048/2048-$i.yaml; done
+  482  kubectl get ingress/2048-ingress -n 2048-game
+  483  history
+  484  kubectl logs -f $(kubectl get po -n kube-system | egrep -o 'aws-load-balancer-controller-7c659c746c-wsv44') -n kube-system
+  485  kubectl logs -f $(kubectl get po -n kube-system | egrep -o 'aws-load-balancer-controller-7c659c746c-wsv44') -n kube-system
+  486  for i in namespace deployment service ingress; do   kubectl apply -f     https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.4/docs/examples/2048/2048-$i.yaml; done
+  487  kubectl get pods
+  488  kubectl get pods
+  489  kubectl logs -f $(kubectl get po -n kube-system | egrep -o 'aws-load-balancer-controller-7c659c746c-wsv44') -n kube-system
+  490  kubectl get ingress/2048-ingress -n 2048-game
+  491  for i in namespace deployment service ingress; do   kubectl apply -f     https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.4/docs/examples/2048/2048-$i.yaml; done
+  492  kubectl logs -f $(kubectl get po -n kube-system | egrep -o 'aws-load-balancer-controller-7c659c746c-wsv44') -n kube-system
+  493  for i in namespace deployment service ingress; do   kubectl apply -f     https://raw.githubusercontent.com/kubernetes-sigs/aws-alb-ingress-controller/v1.1.4/docs/examples/2048/2048-$i.yaml; done
+  494  kubectl logs -f $(kubectl get po -n kube-system | egrep -o 'aws-load-balancer-controller-7c659c746c-wsv44') -n kube-system
+  495  history
+  496  kubectl get ingress/2048-ingress -n 2048-game
+  497  kubectl get pods
