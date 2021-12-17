@@ -141,3 +141,10 @@ Check that it worked by running the following: kubectl port-forward service/graf
 Navigate to localhost:3000 in your browser. You should see a Grafana login page.
 
 Use admin for both the username and password to login.
+
+
+
+
+
+
+
