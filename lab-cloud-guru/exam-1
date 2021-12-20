@@ -1,0 +1,60 @@
+CKA Practice Exam: Part 1
+In this hands-on lab, you’ll be tasked with creating a deployment and a service, making sure you can access the application running on those pods without the potential of service interruptions. This will simulate a question you may receive on the Certified Kubernetes Administrator (CKA) exam.
+
+Log in to the Kube Master server using the credentials on the lab page (either in your local terminal, using the Instant Terminal feature, or using the public IP), and work through the objectives listed.
+
+Create a deployment named webapp in the web namespace and verify connectivity.
+Create a namespace named web:
+
+kubectl create ns web
+Create a deployment named webapp:
+
+kubectl run webapp --image=linuxacademycontent/podofminerva:latest --port=80 --replicas=3 -n web
+Create a service named web-service and forward traffic from the pods.
+Get the IP address of a pod that’s a part of the deployment:
+
+kubectl get po -o wide -n web
+Create a temporary pod with a shell to its container:
+
+kubectl run busybox --image=busybox --rm -it --restart=Never -- sh
+Use the following command (from the container’s shell) to send a request to the web pod:
+
+wget -O- &lt;pod_ip_address>:80
+Exit out of the busybox pod:
+
+exit
+Create the YAML for the service named web-service:
+
+kubectl expose deployment/webapp --port=80 --target-port=80 --type=NodePort -n web --dry-run -o yaml > web-service.yaml
+This will save time for you on the exam, as it creates a template so you don't have to create the YAML from scratch.
+
+Use Vim to add the namespace and the NodePort to the YAML:
+
+vim web-service.yaml
+Change the name to web-service, add the namespace web, and add nodePort: 30080.
+
+Create the service:
+
+kubectl apply -f web-service.yaml
+Verify that the service is responding on the correct port:
+
+curl localhost:30080
+Modify the deployment:
+
+kubectl edit deploy webapp -n web
+Add the liveness probe and the readiness probe:
+
+livenessProbe:
+  httpGet:
+    path: /healthz
+    port: 8081
+readinessProbe:
+  httpGet:
+    path: /
+    port: 80
+Check if the pods are running:
+
+kubectl get po -n web
+Check if the probes were added to the pods:
+
+kubectl get po &lt;pod_name> -o yaml -n web --export
