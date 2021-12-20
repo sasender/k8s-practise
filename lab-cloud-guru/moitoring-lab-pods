@@ -23,3 +23,5 @@ commands :
 kubectl get pods --all-namespaces
 kubectl logs [pod-name] -n namespace_name
 kubectl logs [podname] -n namespace > fiel name 
+ku logs pod4 -n web > brokenpod.log
+
