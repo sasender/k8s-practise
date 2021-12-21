@@ -1,0 +1,96 @@
+In this portion of the practice exam, you will demonstrate your knowledge of PersistentVolumes and PersistentVolumeClaims in order to ensure data integrity. This will simulate a question you may see on the Certified Kubernetes Administrator (CKA) exam.
+
+Log in to the Kube Master server using the credentials on the lab page (either in your local terminal, using the Instant Terminal feature, or using the public IP), and work through the objectives listed.
+
+Create the PersistentVolumeClaim.
+Check if there is already a web namespace:
+
+kubectl get ns
+Now, we're going to create a PersistentVolumeClaim. Rather than write the YAML from scratch, search the documentation for "kubectl apply persistentvolumeclaim". Then, find the most appropriate YAML, add it to the following, and run the command:
+
+vi data-pvc.yaml #copy and paste from docs
+Update the file data-pvc.yaml with the following details:
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: data-pvc
+  namespace: web
+spec:
+  storageClassName: local-storage
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 256Mi
+Create the PVC:
+
+kubectl apply -f data-pvc.yaml
+Create a pod mounting the volume and write data to the volume.
+Create the YAML for a busybox pod:
+
+kubectl run busybox --image=busybox:1.28 --restart=Never -o yaml --dry-run -- /bin/sh -c 'sleep 3600' > data-pod.yaml
+Edit the data-pod.yaml file:
+
+vi data-pod.yaml
+Update the data-pod.yaml file as below:
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: data-pod
+  namespace: web
+spec:
+  containers:
+  - args:
+    - /bin/sh
+    - -c
+    - sleep 3600
+    image: busybox:1.28
+    name: data-pod
+    resources: {}
+    volumeMounts: 
+    - name: temp-data
+      mountPath: /tmp/data
+  dnsPolicy: ClusterFirst
+  restartPolicy: Never
+  volumes: 
+  - name: temp-data
+    persistentVolumeClaim:
+      claimName: data-pvc
+Create the pod:
+
+kubectl apply -f data-pod.yaml
+Connect to the pod:
+
+kubectl exec -it data-pod -n web -- sh
+Use the following commands to confirm the environmant and to copy the contents of the etc/passwd file to /tmp/data:
+
+# ls -la /etc/passwd
+# ls -la /tmp/data/
+# cp /etc/passwd /tmp/data/passwd
+List the contents of /tmp/data:
+
+# ls /tmp/data/
+Exit out of the shell:
+
+# exit
+Delete the pod and create a new pod and view volume data.
+Delete the pod:
+
+kubectl delete po data-pod -n web
+Modify the pod YAML:
+
+vi data-pod.yaml
+Change the following line in the data-pod.yaml file:
+
+name: data-pod2
+Create a new pod:
+
+kubectl apply -f data-pod.yaml
+Connect to the pod:
+
+kubectl exec -it data-pod2 -n web -- sh
+View the contents of the volume:
+
+# ls /tmp/data
