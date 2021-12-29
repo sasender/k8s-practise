@@ -1,0 +1,10 @@
+before ingree we are using services like 
+cluster ip , node port, elsatic ip  
+but using these ips  we need connect to our browser our ip will expose to the public and port also  it s open to the all the nodes in the cluster 
+its not good practising 
+
+
+in that senarios  ingress comes in to the picture 
+
+
+
