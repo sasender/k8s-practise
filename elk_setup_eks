@@ -1,0 +1,28 @@
+after installing the eks cluster we need to install on helm  chrts on our linux machine
+then added the elastic repos in helm charts 
+add elasticsearch by using helm charts 
+add kibana by using helm charst 
+but we need to edit the elastic charts in the group of node services 
+like :
+===================================================================================
+helm show values elastic/elasticsearch >> elasticsearch.values
+we editing the elasticsearch.values 
+change the node groups and master groups form 3to 2 and 2 to 1 
+after the we create the elasticesearch service 
+i had used below commnd line 
+helm install elasticsearch elastic/elasticsearch -f elasticsearch.values -n efk
+====================================================================================
+
+similarly do kibana also
+helm show values elastic/kibana >> kibana.values
+in thise kibana file i edited the loadbalancer type insted of node port 
+helm install kibana elastic/kibana -f kibana.values -n efk
+
+=====================================================================================
+helm install filebeat elastic/filebeat -n efk 
+
+
+======================================================================================
+refernse files :
+https://youtu.be/rKkFGVMvAPM
+=======================================================================================
