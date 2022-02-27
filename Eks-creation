@@ -66,3 +66,10 @@ aws eks create-cluster \
 >    --role-arn arn:aws:iam::326413622254:role/demo-cluster \
 >    --resources-vpc-config subnetIds=subnet-0a036bf06979f3b15,subnet-0d2683a99fb6624b9,subnet-0122a04eed942d886,subnet-083364fe76c074a89,securityGroupIds=sg-0fb735b3673fdd2d5
 
+Referes links:
+https://youtu.be/mF923VRTrSE
+----------------------------
+https://aws.amazon.com/premiumsupport/knowledge-center/amazon-eks-cluster-access/
+----------------------------------------------------------------------------------
+https://joachim8675309.medium.com/create-eks-with-an-existing-vpc-8e31d95ccc5b
+-----------------------------------------------------------------------------------
