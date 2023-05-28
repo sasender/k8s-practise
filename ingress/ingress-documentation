@@ -5,6 +5,49 @@ its not good practising
 
 
 in that senarios  ingress comes in to the picture 
+https://www.youtube.com/watch?v=ZGKaSboqKzk
+
+ https://github.com/listentolearn/aws-eks-app-deployment/tree/main
+
+add the internet-facing tag to our public subnet 
+key=value 
+kubernetes.io/role/elb   = value: 1
+
+create eks cluster and copy the oidc url in overview tab in eks clsuter and create the oidc idententy provider in iam serivces.
+create iam policy which is having the all nessary permissions to create the resorces in aws 
+create trust entity based iam role amd copy from the above github url there is one filed called roles-based-entity 
+then after create the service account in eks which is acts b/w the aws and eks clsuter, in these serivce account we had added the role arn whih is previously created and apply the commnt 
+--------------------------------------------------------------------
+cat >aws-load-balancer-controller-service-account.yaml <<EOF
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  labels:
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/name: aws-load-balancer-controller
+  name: aws-load-balancer-controller
+  namespace: kube-system
+  annotations:
+    eks.amazonaws.com/role-arn: arn:aws:iam::aws-account-no:role/AmazonEKSLoadBalancerControllerRole
+EOF
+--------------------------------------------------------------------
+then affeter the install the helm packeg manger, 
+add the eks related charts by using these commnd 
+ "helm repo add eks https://aws.github.io/eks-charts"
+ 
+ helm repo update
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+-n kube-system \
+--set clusterName=joy \
+--set serviceAccount.create=false \
+--set serviceAccount.name=aws-load-balancer-controller
+
+kubectl get deployment -n kube-system aws-load-balancer-controller
+
+
+practising 
+
+https://medium.com/@phanindra.sangers/alb-ingress-controller-in-eks-complete-tutorial-970466036868
 
 
 
